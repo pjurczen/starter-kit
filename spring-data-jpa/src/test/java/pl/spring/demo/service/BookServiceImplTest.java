@@ -23,7 +23,7 @@ public class BookServiceImplTest {
     private BookService bookService;
     @Autowired
     private CacheManager cacheManager;
-
+    
     @Before
     public void setUp() {
         cacheManager.getCache("booksCache").clear();

@@ -1,18 +1,18 @@
 package pl.spring.demo.aop;
 
-
 import org.springframework.aop.MethodBeforeAdvice;
+import org.springframework.stereotype.Service;
+
 import pl.spring.demo.annotation.NullableId;
 import pl.spring.demo.exception.BookNotNullIdException;
 import pl.spring.demo.to.IdAware;
-
 import java.lang.reflect.Method;
 
+@Service
 public class BookDaoAdvisor implements MethodBeforeAdvice {
 
     @Override
     public void before(Method method, Object[] objects, Object o) throws Throwable {
-
         if (hasAnnotation(method, o, NullableId.class)) {
             checkNotNullId(objects[0]);
         }
