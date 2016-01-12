@@ -8,15 +8,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.AnnotationConfigContextLoader;
+
+import pl.spring.demo.configuration.CommonServiceTestConfiguration;
 import pl.spring.demo.exception.BookNotNullIdException;
 import pl.spring.demo.to.BookTo;
 
-import java.util.List;
+import java.util.Collection;
 
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "CommonServiceTest-context.xml")
+@ContextConfiguration(loader = AnnotationConfigContextLoader.class, classes = CommonServiceTestConfiguration.class)
 public class BookServiceImplTest {
 
     @Autowired
@@ -32,7 +35,7 @@ public class BookServiceImplTest {
     @Test
     public void testShouldFindAllBooks() {
         // when
-        List<BookTo> allBooks = bookService.findAllBooks();
+        Collection<BookTo> allBooks = bookService.findAllBooks();
         // then
         assertNotNull(allBooks);
         assertFalse(allBooks.isEmpty());
@@ -45,12 +48,12 @@ public class BookServiceImplTest {
         // given
         final String title = "Opium w rosole";
         // when
-        List<BookTo> booksByTitle = bookService.findBooksByTitle(title);
+        Collection<BookTo> booksByTitle = bookService.findBooksByTitle(title);
         // then
         assertNotNull(booksByTitle);
         assertFalse(booksByTitle.isEmpty());
     }
-
+    
     @Test(expected = BookNotNullIdException.class)
     public void testShouldThrowBookNotNullIdException() {
         // given
