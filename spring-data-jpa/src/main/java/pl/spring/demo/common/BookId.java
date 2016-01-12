@@ -14,8 +14,8 @@ public class BookId {
     private ContainerSequence<BookTo> containerSequence;
 
     @Autowired
-    public BookId(ContainerSequence<BookTo> sequence) {
-        this.containerSequence = sequence;
+    public BookId(ContainerSequence<BookTo> containerSequence) {
+        this.containerSequence = containerSequence;
     }
     
     @Before("execution (* pl.spring.demo.dao.BookDao.save(..)) && args(book)")

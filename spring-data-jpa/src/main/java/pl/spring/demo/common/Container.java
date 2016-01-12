@@ -8,8 +8,8 @@ public class Container<T> {
     
     private Collection<T> container;
     
-    public Container(Collection<T> container) {//Class<? extends Collection<T>> containerClass) throws InstantiationException, IllegalAccessException {
-        this.container = container;//containerClass.newInstance();
+    public Container(Collection<T> container) {
+        this.container = container;
     }
     
     public void add(T t) {

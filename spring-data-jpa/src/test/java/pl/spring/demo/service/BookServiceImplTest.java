@@ -10,8 +10,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
+import pl.spring.demo.configuration.ApplicationContextAware;
 import pl.spring.demo.configuration.CommonServiceTestConfiguration;
-import pl.spring.demo.exception.BookNotNullIdException;
 import pl.spring.demo.to.BookTo;
 
 import java.util.Collection;
@@ -26,6 +26,9 @@ public class BookServiceImplTest {
     private BookService bookService;
     @Autowired
     private CacheManager cacheManager;
+    @SuppressWarnings("unused")
+    @Autowired
+    private ApplicationContextAware applicationContextAware;
     
     @Before
     public void setUp() {
@@ -35,6 +38,7 @@ public class BookServiceImplTest {
     @Test
     public void testShouldFindAllBooks() {
         // when
+        //applicationContextAware.refreshContext();
         Collection<BookTo> allBooks = bookService.findAllBooks();
         // then
         assertNotNull(allBooks);
@@ -54,14 +58,13 @@ public class BookServiceImplTest {
         assertFalse(booksByTitle.isEmpty());
     }
     
-    @Test(expected = BookNotNullIdException.class)
-    public void testShouldThrowBookNotNullIdException() {
+    @Test
+    public void testShouldSaveBook() {
         // given
         final BookTo bookToSave = new BookTo();
-        bookToSave.setId(22L);
         // when
         bookService.saveBook(bookToSave);
         // then
-        fail("test should throw BookNotNullIdException");
+        assertEquals(7, bookService.findAllBooks().size());
     }
 }

@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Service("target")
+@Service
 public class BookDaoImpl implements BookDao {
     
     private Container<BookTo> books;
@@ -25,8 +25,9 @@ public class BookDaoImpl implements BookDao {
     
     @Override
     public Collection<BookTo> findAll() {
-        return books.getAsStream()
+        Collection<BookTo> book = books.getAsStream()
                 .collect(Collectors.toList());
+        return book;
     }
 
     @Override
