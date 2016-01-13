@@ -12,6 +12,7 @@ import java.util.Collection;
 
 @Service
 public class BookServiceImpl implements BookService {
+    
     private BookDao bookDao;
     
     @Autowired
