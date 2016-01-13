@@ -15,29 +15,24 @@ public class BookEntityToBookToConverter implements Converter<BookEntity, BookTo
 
     @Override
     public BookTo convert(BookEntity source) {
-        Long id;
-        String title;
+        Long id = source.getId();
+        String title = source.getTitle();;
         String authors = "";
         try {
-            id = source.getId();
-            title = source.getTitle();
             Collection<AuthorTo> sourceAuthors = source.getAuthors();
             Iterator<AuthorTo> iterator = sourceAuthors.iterator();
             iterator.next();
             for(AuthorTo author : sourceAuthors) {
-                if (author.getFirstName() != "") {
-                    authors += author.getFirstName() + " ";
-                }
-                authors += author.getLastName();
+                authors += author.getFirstName() + " " + author.getLastName();
                 if(iterator.hasNext()) {
                     authors += ", ";
                     iterator.next();
                 }
             }
-            return new BookTo(id, title, authors);
         } catch (NullPointerException e) {
-            return null;
+            
         }
+        return new BookTo(id, title, authors);
     }
 
 }

@@ -35,7 +35,7 @@ public class BookServiceImplTest {
     public void testShouldSaveBook() {
         // given
         BookTo book = new BookTo(null, "title", "author");
-        Mockito.when(bookService.saveBook(book)).thenReturn(new BookTo(1L, "title", "AuthorFirstName AuthorLastName"));
+        Mockito.when(bookService.saveBook(book)).thenReturn(new BookTo(1L, "title", "author"));
         // when
         BookTo result = bookService.saveBook(book);
         // then

@@ -15,14 +15,9 @@ public class BookToToBookEntityConverter implements Converter<BookTo, BookEntity
         Long id = source.getId();
         String title;
         String authors;
-        try {
-            id = source.getId();
-            title = source.getTitle();
-            authors = source.getAuthors();
-            return new BookEntity(id, title, authors);
-        } catch (NullPointerException e) {
-            return new BookEntity(id, "", "");
-        }
+        id = source.getId();
+        title = source.getTitle();
+        authors = source.getAuthors();
+        return new BookEntity(id, title, authors);
     }
-
 }
