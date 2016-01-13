@@ -10,7 +10,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.core.io.ClassPathResource;
 
 import pl.spring.demo.common.Container;
-import pl.spring.demo.to.BookTo;
+import pl.spring.demo.to.BookEntity;
 
 @Configuration
 @EnableAspectJAutoProxy
@@ -18,8 +18,8 @@ import pl.spring.demo.to.BookTo;
 public class ApplicationConfiguration {
     
     @Bean
-    public Container<BookTo> books() {
-        return new Container<BookTo>(new HashSet<BookTo>());
+    public Container<BookEntity> books() {
+        return new Container<BookEntity>(new HashSet<BookEntity>());
     }
     
     @Bean

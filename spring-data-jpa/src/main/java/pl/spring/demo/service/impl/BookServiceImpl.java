@@ -4,44 +4,63 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import pl.spring.demo.common.BookEntityToBookToConverter;
+import pl.spring.demo.common.BookToToBookEntityConverter;
 import pl.spring.demo.dao.BookDao;
 import pl.spring.demo.service.BookService;
+import pl.spring.demo.to.BookEntity;
 import pl.spring.demo.to.BookTo;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 @Service
 public class BookServiceImpl implements BookService {
     
     private BookDao bookDao;
+    private BookEntityToBookToConverter bookEntityToBookToConverter;
+    private BookToToBookEntityConverter bookToToBookEntityConverter;
     
     @Autowired
-    public BookServiceImpl(BookDao bookDao) {
+    public BookServiceImpl(BookDao bookDao,
+            BookEntityToBookToConverter bookEntityToBookToConverter,
+            BookToToBookEntityConverter bookToToBookEntityConverter) {
         this.bookDao = bookDao;
+        this.bookEntityToBookToConverter = bookEntityToBookToConverter;
+        this.bookToToBookEntityConverter = bookToToBookEntityConverter;
     }
     
     @Override
     @Cacheable("booksCache")
     public Collection<BookTo> findAllBooks() {
-        return bookDao.findAll();
+        Collection<BookTo> books = new ArrayList<BookTo>();
+        for(BookEntity book : bookDao.findAll()) {
+            books.add(bookEntityToBookToConverter.convert(book));
+        }
+        return books;
     }
 
     @Override
     public Collection<BookTo> findBooksByTitle(String title) {
-        return bookDao.findBookByTitle(title);
+        Collection<BookTo> books = new ArrayList<BookTo>();
+        for(BookEntity book : bookDao.findBookByTitle(title)) {
+            books.add(bookEntityToBookToConverter.convert(book));
+        }
+        return books;
     }
 
     @Override
     public Collection<BookTo> findBooksByAuthor(String author) {
-        return bookDao.findBooksByAuthor(author);
+        Collection<BookTo> books = new ArrayList<BookTo>();
+        for(BookEntity book : bookDao.findBooksByAuthor(author)) {
+            books.add(bookEntityToBookToConverter.convert(book));
+        }
+        return books;
     }
 
     @Override
     public BookTo saveBook(BookTo book) {
-        return bookDao.save(book);
-    }
-
-    public void setBookDao(BookDao bookDao) {
-        this.bookDao = bookDao;
+        return bookEntityToBookToConverter
+                .convert(bookDao.save(bookToToBookEntityConverter.convert(book)));
     }
 }

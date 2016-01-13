@@ -8,7 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.AnnotationConfigContextLoader;
+
+import pl.spring.demo.configuration.CommonServiceTestConfiguration;
+import pl.spring.demo.configuration.MockServiceTestConfiguration;
 import pl.spring.demo.dao.BookDao;
+import pl.spring.demo.to.BookEntity;
 import pl.spring.demo.to.BookTo;
 
 import java.util.Arrays;
@@ -17,7 +22,7 @@ import java.util.Collection;
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"CommonServiceTest-context.xml", "BookServiceImplCacheTest-context.xml"})
+@ContextConfiguration(loader = AnnotationConfigContextLoader.class, classes = { CommonServiceTestConfiguration.class, MockServiceTestConfiguration.class })
 public class BookServiceImplCacheTest {
 
     @Autowired
@@ -35,7 +40,7 @@ public class BookServiceImplCacheTest {
     @Test
     public void testShouldFindAllBooksFirstFromDaoThenFromCache() {
         // when
-        Mockito.when(bookDao.findAll()).thenReturn(Arrays.asList(new BookTo(1L, "Title", "Author")));
+        Mockito.when(bookDao.findAll()).thenReturn(Arrays.asList(new BookEntity(1L, "Title", "Author")));
 
         Collection<BookTo> allBooks = bookService.findAllBooks();
         assertEquals(1, allBooks.size());

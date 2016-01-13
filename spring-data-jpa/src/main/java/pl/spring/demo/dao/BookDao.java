@@ -1,17 +1,17 @@
 package pl.spring.demo.dao;
 
-import pl.spring.demo.to.BookTo;
+import pl.spring.demo.to.BookEntity;
 
 import java.util.Collection;
 
 
 public interface BookDao {
 
-    Collection<BookTo> findAll();
+    Collection<BookEntity> findAll();
 
-    Collection<BookTo> findBookByTitle(String title);
+    Collection<BookEntity> findBookByTitle(String title);
 
-    Collection<BookTo> findBooksByAuthor(String author);
+    Collection<BookEntity> findBooksByAuthor(String author);
 
-    BookTo save(BookTo book);
+    BookEntity save(BookEntity book);
 }

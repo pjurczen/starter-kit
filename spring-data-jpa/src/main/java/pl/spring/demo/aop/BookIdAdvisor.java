@@ -1,20 +1,21 @@
-package pl.spring.demo.common;
+package pl.spring.demo.aop;
 
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import pl.spring.demo.common.ContainerSequence;
 import pl.spring.demo.to.BookTo;
 
 @Component
 @Aspect
-public class BookId {
+public class BookIdAdvisor {
     
     private ContainerSequence<BookTo> containerSequence;
 
     @Autowired
-    public BookId(ContainerSequence<BookTo> containerSequence) {
+    public BookIdAdvisor(ContainerSequence<BookTo> containerSequence) {
         this.containerSequence = containerSequence;
     }
     
