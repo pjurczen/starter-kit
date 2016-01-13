@@ -13,11 +13,8 @@ public class BookToToBookEntityConverter implements Converter<BookTo, BookEntity
     @Override
     public BookEntity convert(BookTo source) {
         Long id = source.getId();
-        String title;
-        String authors;
-        id = source.getId();
-        title = source.getTitle();
-        authors = source.getAuthors();
+        String title = source.getTitle();
+        String authors = source.getAuthors();;
         return new BookEntity(id, title, authors);
     }
 }
