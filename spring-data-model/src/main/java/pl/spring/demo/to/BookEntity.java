@@ -8,21 +8,15 @@ public class BookEntity implements IdAware {
     private String title;
     private Collection<AuthorTo> authors;
     
-    /*public BookEntity(Long id, String title, Collection<AuthorTo> authors) {
-        this.id = id;
-        this.title = title;
-        this.authors = authors;
-    }*/
-    
-    public BookEntity(Long id, String title, String authors) {
+    public BookEntity(Long id, String title, String authors) throws IllegalArgumentException{
         this.authors = new ArrayList<AuthorTo>();
         this.id = id;
         this.title = title;
         String[] tmpAuthor = authors.split(" ");
-        if(tmpAuthor.length > 1) {
-            this.authors.add(new AuthorTo(1L, tmpAuthor[0], tmpAuthor[1]));
-        } else if (tmpAuthor.length > 0){
-            this.authors.add(new AuthorTo(1L, "", tmpAuthor[0]));
+        try {
+            this.authors.add(new AuthorTo(1L, tmpAuthor[0], tmpAuthor[1])); 
+        } catch (IndexOutOfBoundsException e) {
+            throw new IllegalArgumentException();
         }
     }
     

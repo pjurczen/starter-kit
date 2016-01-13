@@ -40,7 +40,7 @@ public class BookServiceImplCacheTest {
     @Test
     public void testShouldFindAllBooksFirstFromDaoThenFromCache() {
         // when
-        Mockito.when(bookDao.findAll()).thenReturn(Arrays.asList(new BookEntity(1L, "Title", "Author")));
+        Mockito.when(bookDao.findAll()).thenReturn(Arrays.asList(new BookEntity(1L, "Title", "AuthorFirstName AuthorLastName")));
 
         Collection<BookTo> allBooks = bookService.findAllBooks();
         assertEquals(1, allBooks.size());

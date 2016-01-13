@@ -79,6 +79,7 @@ public class BookServiceImplTest {
         // given
         final BookTo bookToSave = new BookTo();
         bookToSave.setId(22L);
+        bookToSave.setAuthors("AuthorFirstName AuthorLastName");
         // when
         bookService.saveBook(bookToSave);
         // then
