@@ -57,12 +57,12 @@ public class AuthorTo implements IdAware {
         if (firstName == null) {
             if (other.firstName != null)
                 return false;
-        } else if (!firstName.toLowerCase().equals(other.firstName.toLowerCase()))
+        } else if (!other.firstName.toLowerCase().startsWith(firstName.toLowerCase()))
             return false;
         if (lastName == null) {
             if (other.lastName != null)
                 return false;
-        } else if (!lastName.toLowerCase().equals(other.lastName.toLowerCase()))
+        } else if (!other.lastName.toLowerCase().startsWith(lastName.toLowerCase()))
             return false;
         return true;
     }

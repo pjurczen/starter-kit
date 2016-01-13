@@ -56,7 +56,7 @@ public class BookServiceImplTest {
     @Test
     public void testShouldFindAllBooksByAuthor() {
         // given
-        final String author = "wiliam szekspir";
+        final String author = "wili szeks";
         // when
         Collection<BookTo> booksByAuthor = bookService.findBooksByAuthor(author);
         // then
