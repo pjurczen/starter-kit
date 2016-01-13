@@ -6,10 +6,12 @@ import pl.spring.demo.dao.BookDao;
 import pl.spring.demo.to.BookTo;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.PostConstruct;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,17 +19,14 @@ public class BookDaoImpl implements BookDao {
     
     private Container<BookTo> books;
 
-    @Autowired
-    public BookDaoImpl(Container<BookTo> books) {
-        this.books = books;
-        addTestBooks();
+    public BookDaoImpl() {
+        books = new Container<BookTo>(new HashSet<BookTo>());
     }
     
     @Override
     public Collection<BookTo> findAll() {
-        Collection<BookTo> book = books.getAsStream()
+        return books.getAsStream()
                 .collect(Collectors.toList());
-        return book;
     }
 
     @Override
@@ -47,6 +46,7 @@ public class BookDaoImpl implements BookDao {
         return book;
     }
     
+    @PostConstruct
     private void addTestBooks() {
         books.add(new BookTo(1L, "Romeo i Julia", "Wiliam Szekspir"));
         books.add(new BookTo(2L, "Opium w rosole", "Hanna Ożogowska"));

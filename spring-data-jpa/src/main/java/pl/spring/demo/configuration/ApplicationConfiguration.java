@@ -1,17 +1,14 @@
 package pl.spring.demo.configuration;
 
-import java.util.HashSet;
-
 import org.springframework.beans.factory.config.PropertiesFactoryBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.io.ClassPathResource;
 
-import pl.spring.demo.common.Container;
-import pl.spring.demo.to.BookTo;
+import pl.spring.demo.dao.BookDao;
+import pl.spring.demo.dao.impl.BookDaoImpl;
 
 @Configuration
 @EnableAspectJAutoProxy
@@ -19,8 +16,8 @@ import pl.spring.demo.to.BookTo;
 public class ApplicationConfiguration {
     
     @Bean
-    public Container<BookTo> books() {
-        return new Container<BookTo>(new HashSet<BookTo>());
+    public BookDao bookDao() {
+        return new BookDaoImpl();
     }
     
     @Bean
@@ -30,13 +27,4 @@ public class ApplicationConfiguration {
         return propertiesFactoryBean;
     }
     
-    @Bean
-    public static PropertySourcesPlaceholderConfigurer propertyConfig() {
-        return new PropertySourcesPlaceholderConfigurer();
-    }
-    
-    @Bean
-    public ApplicationContextAware applicationContextAware() {
-        return new ApplicationContextAware();
-    }
 }
