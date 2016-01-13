@@ -12,6 +12,7 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
 import pl.spring.demo.configuration.ApplicationContextAware;
 import pl.spring.demo.configuration.CommonServiceTestConfiguration;
+import pl.spring.demo.exception.BookNotNullIdException;
 import pl.spring.demo.to.BookTo;
 
 import java.util.Collection;
@@ -58,13 +59,14 @@ public class BookServiceImplTest {
         assertFalse(booksByTitle.isEmpty());
     }
     
-    @Test
+    @Test(expected = BookNotNullIdException.class)
     public void testShouldSaveBook() {
         // given
         final BookTo bookToSave = new BookTo();
+        bookToSave.setId(22L);
         // when
         bookService.saveBook(bookToSave);
         // then
-        assertEquals(7, bookService.findAllBooks().size());
+        fail("test should throw BookNotNullIdException");
     }
 }

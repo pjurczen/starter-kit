@@ -1,20 +1,35 @@
 package pl.spring.demo.aop;
 
-import org.springframework.aop.MethodBeforeAdvice;
-import org.springframework.stereotype.Service;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-import pl.spring.demo.annotation.NullableId;
+import pl.spring.demo.common.Sequence;
+import pl.spring.demo.dao.BookDao;
 import pl.spring.demo.exception.BookNotNullIdException;
+import pl.spring.demo.to.BookTo;
 import pl.spring.demo.to.IdAware;
-import java.lang.reflect.Method;
 
-@Service
-public class BookDaoAdvisor implements MethodBeforeAdvice {
-
-    @Override
-    public void before(Method method, Object[] objects, Object o) throws Throwable {
-        if (hasAnnotation(method, o, NullableId.class)) {
-            checkNotNullId(objects[0]);
+@Aspect
+@Component
+public class BookDaoAdvisor {
+    
+    private Sequence sequence;
+    
+    @Autowired
+    public BookDaoAdvisor(Sequence sequence) {
+        this.sequence = sequence;
+    }
+    
+    @Before(value = "@annotation(pl.spring.demo.annotation.NullableId)")
+    public void before(JoinPoint joinPoint) throws Throwable {
+        Object[] arguments = joinPoint.getArgs();
+        if (arguments[0] instanceof BookTo) {
+            checkNotNullId(arguments[0]);
+            BookDao bookDaoImpl = (BookDao) joinPoint.getThis();
+            ((BookTo) arguments[0]).setId(sequence.nextValue(bookDaoImpl.findAll()));
         }
     }
 
@@ -22,14 +37,5 @@ public class BookDaoAdvisor implements MethodBeforeAdvice {
         if (o instanceof IdAware && ((IdAware) o).getId() != null) {
             throw new BookNotNullIdException();
         }
-    }
-
-    private boolean hasAnnotation (Method method, Object o, Class annotationClazz) throws NoSuchMethodException {
-        boolean hasAnnotation = method.getAnnotation(annotationClazz) != null;
-
-        if (!hasAnnotation && o != null) {
-            hasAnnotation = o.getClass().getMethod(method.getName(), method.getParameterTypes()).getAnnotation(annotationClazz) != null;
-        }
-        return hasAnnotation;
     }
 }
