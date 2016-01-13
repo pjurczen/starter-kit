@@ -64,8 +64,18 @@ public class BookServiceImplTest {
         assertFalse(booksByAuthor.isEmpty());
     }
     
+    @Test(expected = IllegalArgumentException.class)
+    public void testShouldThrowIllegalArgumentException() {
+        // given
+        final String author = "wiliamszekspir";
+        // when
+        bookService.findBooksByAuthor(author);
+        // then
+        fail("test should throw IllegalArgumentException");
+    }
+    
     @Test(expected = BookNotNullIdException.class)
-    public void testShouldSaveBook() {
+    public void testShouldThrowBookNotNullIdException() {
         // given
         final BookTo bookToSave = new BookTo();
         bookToSave.setId(22L);
