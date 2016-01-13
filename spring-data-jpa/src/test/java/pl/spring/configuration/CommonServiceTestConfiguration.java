@@ -1,4 +1,4 @@
-package pl.spring.demo.configuration;
+package pl.spring.configuration;
 
 import java.util.Arrays;
 
@@ -9,6 +9,8 @@ import org.springframework.cache.support.SimpleCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+
+import pl.spring.demo.configuration.ApplicationConfiguration;
 
 
 @Configuration

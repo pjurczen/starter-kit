@@ -1,4 +1,4 @@
-package pl.spring.demo.configuration;
+package pl.spring.configuration;
 
 import org.mockito.Mockito;
 import org.springframework.context.annotation.Bean;

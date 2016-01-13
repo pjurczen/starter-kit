@@ -1,4 +1,4 @@
-package pl.spring.demo.converter;
+package pl.spring.converter;
 
 
 
@@ -10,8 +10,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
+import pl.spring.configuration.CommonServiceTestConfiguration;
 import pl.spring.demo.common.BookEntityToBookToConverter;
-import pl.spring.demo.configuration.CommonServiceTestConfiguration;
 import pl.spring.demo.to.BookEntity;
 import pl.spring.demo.to.BookTo;
 

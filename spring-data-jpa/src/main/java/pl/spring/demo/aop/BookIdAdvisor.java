@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 import pl.spring.demo.common.ContainerSequence;
 import pl.spring.demo.to.BookTo;
 
-@Component
 @Aspect
+@Component
 public class BookIdAdvisor {
     
     private ContainerSequence<BookTo> containerSequence;

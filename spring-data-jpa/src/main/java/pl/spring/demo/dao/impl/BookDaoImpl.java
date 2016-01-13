@@ -3,6 +3,7 @@ package pl.spring.demo.dao.impl;
 import pl.spring.demo.annotation.NullableId;
 import pl.spring.demo.common.Container;
 import pl.spring.demo.dao.BookDao;
+import pl.spring.demo.to.AuthorTo;
 import pl.spring.demo.to.BookEntity;
 
 import java.util.Collection;
@@ -32,12 +33,23 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public List<BookEntity> findBookByTitle(String title) {
-        return null;
+        return books.getAsStream()
+                .filter(x -> x.getTitle().toLowerCase().startsWith(title.toLowerCase()))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public List<BookEntity> findBooksByAuthor(String author) {
-        return null;
+    public List<BookEntity> findBooksByAuthor(String author) throws IllegalArgumentException {
+        AuthorTo tmpAuthor;
+        String[] authorSplit = author.toLowerCase().split(" ");
+        try {
+            tmpAuthor = new AuthorTo(1L, authorSplit[0], authorSplit[1]); 
+        } catch (IndexOutOfBoundsException e) {
+            throw new IllegalArgumentException();
+        }
+        return books.getAsStream()
+                .filter(x -> x.getAuthors().contains(tmpAuthor))
+                .collect(Collectors.toList());
     }
     
     @Override
