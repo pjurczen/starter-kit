@@ -17,3 +17,7 @@ hs_err_pid*
 .settings/
 spring-data-jpa/.classpath
 spring-data-model/.classpath
+web/.classpath
+spring-data-model/.gitignore
+spring-data-jpa/.gitignore
+web/.gitignore
