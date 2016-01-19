@@ -1,0 +1,25 @@
+
+button[type=submit] {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 8px 12px;
+    text-decoration: none;
+    cursor: pointer;
+    margin: 5px;
+}
+.inline {
+	display: inline-block;
+}
+body {
+	max-width: 400px;
+	margin: 10px auto;
+    overflow: auto;
+    float: both;
+    text-align: center;
+    border: 1px solid #ddd;
+    padding: 8px 12px;
+}
+button[type=submit]:hover {
+    background-color: #99d7ff;
+}

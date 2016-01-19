@@ -3,10 +3,35 @@
 <head lang="en">
     <meta charset="UTF-8"/>
     <title>Lista książek</title>
+    <link rel="stylesheet" th:href="@{/static/application.css}" href="/static/application.css" />
 </head>
 <body>
-    <div th:each="book : ${books}">
-        <p th:text="${book.title}">title</p>
-    </div>
+    <table>
+        <thead>
+            <tr class="title">
+                <td>ID</td>
+                <td>Title</td>
+                <td>Authors</td>
+                <td>Delete</td>
+            </tr>
+        </thead>
+        <div th:each="book : ${books}">
+            <tr class="entity">
+                <td><p th:text="${book.id}">id</p></td>
+                <td><p th:text="${book.title}">title</p></td>
+                <td class="authors"><p th:text="${book.authors}">authors</p></td> 
+                <td><form th:action="@{/books/remove/__${book.id}__/}">
+                    <button type="submit">Remove this book</button>
+                </form></td>
+            </tr>
+        </div>
+        <tr >
+            <form th:action="@{/books/}" method="post">
+                <td><p></p></td>
+                <td><input type="text" name="title" placeholder="Title" /></td>
+                <td><input type="text" name="authors" placeholder="Authors" /></td>
+                <td><button type="submit">Add</button></td>
+            </form></tr>
+    </table>
 </body>
 </html>
