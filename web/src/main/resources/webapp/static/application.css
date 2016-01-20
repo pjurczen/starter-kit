@@ -54,7 +54,7 @@ button[type=submit] {
     text-decoration: none;
     cursor: pointer;
 }
-button[type=submit]:hover {
+button[type=submit]:active {
     background-color: #99d7ff;
 }
 tr.entity {
