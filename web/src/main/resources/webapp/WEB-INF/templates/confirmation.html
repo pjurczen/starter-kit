@@ -4,16 +4,31 @@
 	<meta charset="UTF-8" />
     <title>Potwierdzenie usunięcia</title>
     <link rel="stylesheet" th:href="@{/static/confirmation.css}" href="/static/confirmation.css" />
+    <script type="text/javascript" th:src="@{/static/jquery-1.12.0.js}"></script>
+    <script th:inline="javascript">
+		function deleteBook() {
+			var dataSet = {
+			    id : [[${bookToDelete.id}]]
+			};
+		    $.ajax({
+				type : "DELETE",
+			    url : "/workshop/books/remove/",
+			    data : JSON.stringify(dataSet),
+	            contentType : "application/json; charset=utf-8",
+	            dataType : "json",
+	            complete: function(data) {
+	            	window.location.assign("/workshop/books/");
+	            	}
+			});
+		}
+	</script>
 </head>
 <body>
     <div>
         <div th:inline="text">
             <h4>Do you want to remove book <em>"[[${bookToDelete.title}]]"</em>?</h4>
         </div>
-        <form class="inline" th:action="@{/books/remove/}" th:object="${bookToDelete.id}" method="post">
-            <input type="hidden" th:field="${bookToDelete.id}" />
-            <button type="submit">Yes</button>
-        </form>
+        <button class="inline" type="submit" onclick="deleteBook()">Yes</button>
         <form class="inline" th:action="@{/books}">
             <button type="submit">Return to list of books</button>
         </form>
