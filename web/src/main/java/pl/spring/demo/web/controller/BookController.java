@@ -48,9 +48,7 @@ public class BookController {
     public String addBook(Map<String, Object> params, @RequestParam("title") String title, @RequestParam("authors") String authors) {
         if(!authors.isEmpty() || !title.isEmpty()) {
             bookService.saveBook(title, authors);
-            title = null;
-            authors = null;
         }
-        return bookList(params);
+        return "redirect:/books/";
     }
 }
