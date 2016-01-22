@@ -4,6 +4,7 @@ package pl.spring.demo.web.rest;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -23,6 +24,7 @@ import pl.spring.demo.web.utils.FileUtils;
 import java.io.File;
 import java.util.Arrays;
 
+import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -38,7 +40,7 @@ public class BookRestServiceTest {
     private WebApplicationContext wac;
 
     private MockMvc mockMvc;
-
+    
     @Before
     public void setUp() {
         Mockito.reset(bookService);
@@ -119,6 +121,11 @@ public class BookRestServiceTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json.toString().getBytes()));
         // then
+        ArgumentCaptor<BookTo> argument = ArgumentCaptor.forClass(BookTo.class);
+        Mockito.verify(bookService).updateBook(argument.capture());
+        assertEquals(bookTo.getId(), argument.getValue().getId());
+        assertEquals(bookTo.getTitle(), argument.getValue().getTitle());
+        assertEquals(bookTo.getAuthors(), argument.getValue().getAuthors());
         response.andExpect(status().isOk());
     }
 }

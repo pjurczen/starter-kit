@@ -5,7 +5,7 @@ $(document).ready(function() {
 		};
 		$.ajax({
 			type : "DELETE",
-			url : "/workshop/books/remove/",
+			url : "/workshop/books/",
 			data : JSON.stringify(dataSet),
 		    contentType : "application/json",
 		    dataType : "json",

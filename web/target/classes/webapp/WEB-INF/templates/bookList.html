@@ -4,6 +4,8 @@
     <meta charset="UTF-8"/>
     <title>Lista książek</title>
     <link rel="stylesheet" th:href="@{/static/application.css}" href="/static/application.css" />
+    <script type="text/javascript" th:src="@{/static/jquery-1.12.0.js}"></script>
+    <script type="text/javascript" th:src="@{/static/bookAdd.js}"></script>
 </head>
 <body>
     <table>
@@ -20,18 +22,17 @@
                 <td><p th:text="${book.id}">id</p></td>
                 <td><p th:text="${book.title}">title</p></td>
                 <td class="authors"><p th:text="${book.authors}">authors</p></td> 
-                <td><form th:action="@{/books/remove/__${book.id}__/}">
+                <td><form th:action="@{/books/__${book.id}__/}">
                     <button type="submit">Remove this book</button>
                 </form></td>
             </tr>
         </div>
         <tr >
-            <form th:action="@{/books/}" method="post">
-                <td><p></p></td>
-                <td><input type="text" name="title" placeholder="Title" /></td>
-                <td><input type="text" name="authors" placeholder="Authors" /></td>
-                <td><button type="submit">Add</button></td>
-            </form></tr>
+            <td><p></p></td>
+            <td><input type="text" id="title" placeholder="Title" /></td>
+            <td><input type="text" id="authors" placeholder="Authors" /></td>
+            <td><button type="submit" id="bookAdd">Add</button></td>
+        </tr>
     </table>
 </body>
 </html>

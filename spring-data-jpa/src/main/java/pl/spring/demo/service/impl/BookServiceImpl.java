@@ -56,7 +56,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(readOnly = true)
     public BookTo updateBook(BookTo book) {
         if(bookRepository.getOne(book.getId()) != null) {
             book = saveBook(book);
