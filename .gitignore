@@ -22,3 +22,8 @@ spring-data-model/.gitignore
 spring-data-jpa/.gitignore
 web/.gitignore
 
+.settings/
+spring-data-jpa/.classpath
+spring-data-jpa/.gitignore
+spring-data-model/.classpath
+spring-data-model/.gitignore
