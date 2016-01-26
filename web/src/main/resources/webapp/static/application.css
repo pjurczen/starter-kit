@@ -45,7 +45,6 @@ tr.entity:hover {
 input[type=text] {
 	border: 1px solid #ddd;
     padding: 15px;
-    text-align: center;
 }
 table, th, td {
     border-collapse: collapse;

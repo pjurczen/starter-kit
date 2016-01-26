@@ -4,16 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import pl.spring.demo.entity.AuthorEntity;
 import pl.spring.demo.entity.BookEntity;
 import pl.spring.demo.mapper.BookMapper;
 import pl.spring.demo.repository.BookRepository;
 import pl.spring.demo.service.BookService;
 import pl.spring.demo.to.BookTo;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Service
 @Transactional(readOnly = true)
@@ -66,23 +63,5 @@ public class BookServiceImpl implements BookService {
             book = saveBook(book);
         }
         return book;
-    }
-
-    @Override
-    @Transactional(readOnly = false)
-    public BookTo saveBook(String title, String authors) {
-        BookEntity book = new BookEntity(null, title);
-        Set<AuthorEntity> authorsSet = new HashSet<AuthorEntity>();
-        try {
-            String[] authorsBoard = authors.split("\\s+");
-            for(int i = 0; i < authorsBoard.length; i++) {
-                authorsSet.add(new AuthorEntity(authorsBoard[i], authorsBoard[i+1]));
-            }
-        } catch (NullPointerException e ) {
-            e.printStackTrace();
-        }
-        book.setAuthors(authorsSet);
-        bookRepository.save(book);
-        return BookMapper.map(book);
     }
 }

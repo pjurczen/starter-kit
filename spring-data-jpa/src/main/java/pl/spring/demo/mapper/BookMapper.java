@@ -5,7 +5,9 @@ import pl.spring.demo.entity.BookEntity;
 import pl.spring.demo.to.BookTo;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class BookMapper {
@@ -38,5 +40,23 @@ public class BookMapper {
                     (", "));
         }
         return null;
+    }
+    
+    @SuppressWarnings("unused")
+    private static Set<AuthorEntity> mapAuthors(String authors) {
+        Set<AuthorEntity> authorsSet = new HashSet<AuthorEntity>();
+        String[] authorsBoard = authors.split("\\s+");
+        try {
+            for(int i = 0; i < authorsBoard.length; i++) {
+                authorsSet.add(new AuthorEntity(authorsBoard[0], authorsBoard[1]));
+            }
+        } catch (NullPointerException e1) {
+            try {
+                authorsSet.add(new AuthorEntity("", authorsBoard[0]));
+            } catch (NullPointerException e2) {
+                e2.printStackTrace();
+            }
+        }
+        return authorsSet;
     }
 }
