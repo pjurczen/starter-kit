@@ -71,7 +71,6 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional(readOnly = false)
     public BookTo saveBook(String title, String authors) {
-        BookEntity book = new BookEntity(null, title, authors);
         BookEntity book = new BookEntity(null, title);
         Set<AuthorEntity> authorsSet = new HashSet<AuthorEntity>();
         try {
