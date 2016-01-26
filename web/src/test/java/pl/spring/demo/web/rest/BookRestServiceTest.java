@@ -1,8 +1,10 @@
 package pl.spring.demo.web.rest;
 
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -13,6 +15,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import net.minidev.json.JSONObject;
 import pl.spring.demo.service.BookService;
 import pl.spring.demo.to.BookTo;
 import pl.spring.demo.web.utils.FileUtils;
@@ -20,9 +24,8 @@ import pl.spring.demo.web.utils.FileUtils;
 import java.io.File;
 import java.util.Arrays;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.junit.Assert.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -37,7 +40,7 @@ public class BookRestServiceTest {
     private WebApplicationContext wac;
 
     private MockMvc mockMvc;
-
+    
     @Before
     public void setUp() {
         Mockito.reset(bookService);
@@ -78,11 +81,51 @@ public class BookRestServiceTest {
         File file = FileUtils.getFileFromClasspath("classpath:pl/spring/demo/web/json/bookToSave.json");
         String json = FileUtils.readFileToString(file);
         // when
-        ResultActions response = this.mockMvc.perform(post("/book")
+        ResultActions response = this.mockMvc.perform(post("/books")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json.getBytes()));
         // then
+        response.andExpect(status().isOk());
+    }
+    
+    @Test
+    public void testShouldDeleteBook() throws Exception {
+        // given
+        final BookTo bookTo = new BookTo(1L, "Pilot i ja", "Adam Bahdaj");
+        JSONObject json = new JSONObject();
+        json.put("id", bookTo.getId());
+        json.put("title", bookTo.getTitle());
+        json.put("authors", bookTo.getAuthors());
+        // when
+        ResultActions response = this.mockMvc.perform(delete("/books")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json.toString().getBytes()));
+        // then
+        response.andExpect(status().isOk());
+        Mockito.verify(bookService).deleteBook(bookTo.getId());
+    }
+    
+    @Test
+    public void testShouldUpdateBook() throws Exception {
+        // given
+        final BookTo bookTo = new BookTo(1L, "Pilot i ja", "Adam Bahdaj");
+        JSONObject json = new JSONObject();
+        json.put("id", bookTo.getId());
+        json.put("title", bookTo.getTitle());
+        json.put("authors", bookTo.getAuthors());
+        // when
+        ResultActions response = this.mockMvc.perform(patch("/books")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json.toString().getBytes()));
+        // then
+        ArgumentCaptor<BookTo> argument = ArgumentCaptor.forClass(BookTo.class);
+        Mockito.verify(bookService).updateBook(argument.capture());
+        assertEquals(bookTo.getId(), argument.getValue().getId());
+        assertEquals(bookTo.getTitle(), argument.getValue().getTitle());
+        assertEquals(bookTo.getAuthors(), argument.getValue().getAuthors());
         response.andExpect(status().isOk());
     }
 }
