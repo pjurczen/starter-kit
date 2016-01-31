@@ -12,3 +12,9 @@ java/target
 *.bak
 target
 
+spring-data-jpa/.classpath
+spring-data-jpa/.gitignore
+spring-data-model/.classpath
+spring-data-model/.gitignore
+web/.classpath
+web/.gitignore
