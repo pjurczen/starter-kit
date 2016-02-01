@@ -53,4 +53,29 @@ angular.module('app.books').controller('BookSearchController', function ($scope,
 			Flash.create('danger', 'Failed to add book!', 'custom-class');
 		});
 	};
+	
+	$scope.updateBook = function(bookId) {
+		$modal.open({
+			templateUrl : 'books/update/update-book-modal.html',
+			controller : 'BookUpdateController',
+			size : 'lg',
+			resolve : {
+				header : function() {
+					return 'Updating book';
+				},
+				book : function() {
+					return {
+						id : bookId,
+						title : '',
+						authors : ''
+					};
+				}
+			}
+		}).result.then(function(response) {
+			Flash.create('success', 'Book "' + response.title + '" updated successfully!', 'custom-class');
+			$scope.search();
+		}, function() {
+			Flash.create('danger', 'Failed to update book!', 'custom-class');
+		});
+	};
 });

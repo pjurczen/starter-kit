@@ -12,11 +12,15 @@
         <tr class="title">
             <th>Title</th>
             <th>Authors</th>
+            <th>Edit</th>
             <th>Remove</th>
         </tr>
         <tr class="entity" ng-repeat="book in books">
             <td>{{ book.title }}</td>
             <td>{{ book.authors }}</td>
+            <td>
+                <button class="btn btn-success" ng-click="updateBook(book.id)">Edit</button>
+            </td>
             <td>
                 <button class="btn btn-success" ng-click="deleteBook(book.id)">Remove</button>
             </td>
