@@ -7,6 +7,9 @@ angular.module('app.books').factory('bookRestService', function ($http, currentC
         },
         deleteBook: function (bookId) {
             return $http.delete(currentContextPath.get() + 'services/books/book/' + bookId);
+        },
+        addBook: function (book) {
+            return $http.post(currentContextPath.get() + 'services/books/book/', book);
         }
     };
 });

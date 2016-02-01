@@ -1,13 +1,36 @@
-<div>
-    <form novalidate>
-        <div class="modal-header">
-            <h3 class="modal-title">Sample</h3>
-        </div>
-        <div class="modal-body">
-            <p>TEST</p>
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-warning" ng-click="$dismiss()">Close</button>
-        </div>
-    </form>
-</div>
+<!DOCTYPE html>
+<html>
+<body>
+<section>
+	<div>
+	    <form novalidate>
+	        <div class="modal-header">
+	            <h3 class="modal-title">Add book</h3>
+	        </div>
+	        <div class="modal-body">
+	            <input class="inline" type="text" name="bookTitle"
+	                    ng-model="book.title" placeholder="Book title" ng-required="true" />
+	            <table class ="inline">
+	                <tr ng-repeat="author in authors">
+	                    <td class="add">{{ author.firstName }}</td>
+	                    <td class="add">{{ author.lastName }}</td>
+	                    <td class="add"><button class="btn btn-primary" ng-click="deleteAuthor($index)">Delete author no. {{$index+1}}</button>
+	                    </td>
+	                </tr>
+	                <tr>
+	                    <td class="add"><input type="text" ng-model="firstName" placeholder="Author first name"></td>
+	                    <td class="add"><input type="text" ng-model="lastName" placeholder="Author last name"></td>
+	                    <td class="add"><button class="btn btn-primary"
+	                            ng-disabled="!(!!firstName) || !(!!lastName)"
+	                            ng-click="addAuthor(firstName,lastName)">Add author no. {{authors.length+1}}</button></td>
+	                </tr>
+	            </table>
+	        </div>
+	        <div class="modal-footer">
+	            <button class="btn btn-success" ng-click="addBook()">Submit</button>
+	        </div>
+	    </form>
+	</div>
+</section>
+</body>
+</html>
