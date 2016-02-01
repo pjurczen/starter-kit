@@ -18,3 +18,4 @@ spring-data-model/.classpath
 spring-data-model/.gitignore
 web/.classpath
 web/.gitignore
+web/src/main/client/app/app.module.js.rej
