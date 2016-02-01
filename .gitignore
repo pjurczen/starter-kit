@@ -19,3 +19,11 @@ spring-data-model/.gitignore
 web/.classpath
 web/.gitignore
 web/src/main/client/app/app.module.js.rej
+spring-data-model/target/
+spring-data-jpa/target/
+web/target/
+spring-data-model/target/*
+spring-data-jpa/target/*
+web/target/*
+/target/
+*/target/*
