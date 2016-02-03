@@ -33,9 +33,9 @@ public class BookDaoImpl extends AbstractDao<BookEntity, Long> implements BookDa
             booleanBuilder.and(ifTitleMatches);
         }
         if (bookSearchCriteria.getAuthors() != null) {
-            String[] authorNames = bookSearchCriteria.getAuthors().split(" ");
-            String firstName = authorNames[0];
-            String lastName = authorNames[authorNames.length - 1];
+            String[] author = bookSearchCriteria.getAuthors().split(" ");
+            String firstName = author[0];
+            String lastName = author[author.length - 1];
             Predicate ifFirstNameMatches = bookEntity.authors.any().firstName.startsWithIgnoreCase(firstName);
             Predicate ifLastNameMatches = bookEntity.authors.any().lastName.startsWithIgnoreCase(lastName);
             booleanBuilder.and(ifFirstNameMatches).and(ifLastNameMatches);
