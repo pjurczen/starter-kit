@@ -27,3 +27,9 @@ spring-data-jpa/.classpath
 spring-data-jpa/.gitignore
 spring-data-model/.classpath
 spring-data-model/.gitignore
+web/src/main/client/node_modules/
+web/src/main/client/bower_components/
+web/src/main/client/test-output/coverage/lcov-report/app/books/index.html
+web/src/main/client/test-output/
+web/src/main/client/dist/
+web/src/main/client/.tmp/
