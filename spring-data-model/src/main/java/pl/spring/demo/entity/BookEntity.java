@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity(name = "BOOK")
+@Entity
 @Table(name = "BOOK")
 public class BookEntity implements Serializable {
     /**
