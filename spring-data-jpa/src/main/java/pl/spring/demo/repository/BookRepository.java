@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface BookRepository extends JpaRepository<BookEntity, Long> {
 
-    @Query("select book from BookEntity book where book.title like :title%")
+    @Query("select book from BookEntity book where lower(book.title) like concat(lower(:title),'%')")
     public List<BookEntity> findBookByTitle(@Param("title") String title);
 
     @Query("select book from BookEntity book where book.authors like %:author%")

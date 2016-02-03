@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<section>
+    <div flash-message="5000" ></div>
+    <p></p>
+    <button class="btn btn-success" ng-click="search()">Search</button>
+    <input class="inlineAuthors" type="text" ng-model="prefix" placeholder="Filter by first or last name"/>
+    <table class="listAuthors">
+        <tr class="title">
+            <th>First name</th>
+            <th>Last name</th>
+        </tr>
+        <tr class="entity" ng-repeat="author in authors | filter:prefix | orderBy:'-lastName':true ">
+            <td>{{ author.firstName }}</td>
+            <td>{{ author.lastName }}</td>
+        </tr>
+    </table>
+</section>
+</body>
+</html>

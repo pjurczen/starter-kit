@@ -11,7 +11,7 @@
 	            <input class="inline" type="text" name="bookTitle"
 	                    ng-model="book.title" placeholder="Book title" ng-required="true" />
 	            <table class ="inline">
-	                <tr ng-repeat="author in authors">
+	                <tr ng-repeat="author in book.authors">
 	                    <td class="add">{{ author.firstName }}</td>
 	                    <td class="add">{{ author.lastName }}</td>
 	                    <td class="add"><button class="btn btn-primary" ng-click="deleteAuthor($index)">Delete author no. {{$index+1}}</button>

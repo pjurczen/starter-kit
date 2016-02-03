@@ -11,16 +11,9 @@ angular.module('app.books').controller(
 			$scope.gridOptions = {
 				data : 'book'
 			};
-			$scope.authors = [];
 
 			$scope.addBook = function() {
-				if ($scope.book.title !== '' && $scope.authors.length > 0) {
-					for (var i = 0; i < $scope.authors.length; i++) { 
-						$scope.book.authors += $scope.authors[i].firstName + ' ' + $scope.authors[i].lastName;
-						if(($scope.authors.length - i) > 1) {
-							$scope.book.authors += ', ';
-						}
-					}
+				if ($scope.book.title !== '' && $scope.book.authors.length > 0) {
 					bookService.addBook($scope.book).then(function(){
 						$scope.$close(book);
 					});
@@ -30,7 +23,8 @@ angular.module('app.books').controller(
 			};
 
 			$scope.addAuthor = function(authorFirstName, authorLastName) {
-				$scope.authors.push({
+				$scope.book.authors.push({
+					id : null,
 					firstName : authorFirstName,
 					lastName : authorLastName
 				});

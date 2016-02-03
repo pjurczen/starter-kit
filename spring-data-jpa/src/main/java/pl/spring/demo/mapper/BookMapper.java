@@ -3,8 +3,10 @@ package pl.spring.demo.mapper;
 import pl.spring.demo.entity.AuthorEntity;
 import pl.spring.demo.entity.BookEntity;
 import pl.spring.demo.entity.LibraryEntity;
+import pl.spring.demo.to.AuthorTo;
 import pl.spring.demo.to.BookTo;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -38,29 +40,15 @@ public class BookMapper {
         return bookEntities.stream().map(BookMapper::map).collect(Collectors.toList());
     }
 
-    private static String mapAuthors(Collection<AuthorEntity> authors) {
-        if (!authors.isEmpty()) {
-            return authors.stream().map(authorEntity -> authorEntity.getFirstName() + " " + authorEntity.getLastName()).collect(Collectors.joining
-                    (", "));
-        }
-        return null;
+    private static List<AuthorTo> mapAuthors(Collection<AuthorEntity> authors) {
+        List<AuthorTo> authorsTo = new ArrayList<AuthorTo>();
+        authors.stream().forEach(authorEntity -> authorsTo.add(new AuthorTo(authorEntity.getId(), authorEntity.getFirstName(), authorEntity.getLastName())));
+        return authorsTo;
     }
     
-    private static Set<AuthorEntity> mapAuthors(String authors) {
+    private static Set<AuthorEntity> mapAuthors(List<AuthorTo> authors) {
         Set<AuthorEntity> authorsSet = new HashSet<AuthorEntity>();
-        String[] authorsBoard = authors.split("(, | )");
-        int i = 0;
-        try {
-            for(i = 0; i < authorsBoard.length; i += 2) {
-                authorsSet.add(new AuthorEntity(authorsBoard[i], authorsBoard[i+1]));
-            }
-        } catch (NullPointerException e1) {
-            try {
-                authorsSet.add(new AuthorEntity("", authorsBoard[i]));
-            } catch (NullPointerException e2) {
-                e2.printStackTrace();
-            }
-        }
+        authors.stream().forEach(authorTo -> authorsSet.add(new AuthorEntity(authorTo.getFirstName(), authorTo.getLastName())));
         return authorsSet;
     }
 }

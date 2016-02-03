@@ -31,7 +31,7 @@ angular.module('app.books').controller('BookSearchController', function ($scope,
     
     $scope.addBook = function() {
 		$modal.open({
-			templateUrl : 'books/add/add-book-modal.html',
+			templateUrl : 'books/modal/book-modal.html',
 			controller : 'BookModalController',
 			size : 'lg',
 			resolve : {
@@ -40,9 +40,9 @@ angular.module('app.books').controller('BookSearchController', function ($scope,
 				},
 				book : function() {
 					return {
-						id : undefined,
+						id : null,
 						title : '',
-						authors : ''
+						authors : []
 					};
 				}
 			}
@@ -54,21 +54,17 @@ angular.module('app.books').controller('BookSearchController', function ($scope,
 		});
 	};
 	
-	$scope.updateBook = function(bookId) {
+	$scope.updateBook = function(book) {
 		$modal.open({
-			templateUrl : 'books/update/update-book-modal.html',
-			controller : 'BookUpdateController',
+			templateUrl : 'books/modal/book-modal.html',
+			controller : 'BookModalController',
 			size : 'lg',
 			resolve : {
 				header : function() {
 					return 'Updating book';
 				},
 				book : function() {
-					return {
-						id : bookId,
-						title : '',
-						authors : ''
-					};
+					return book;
 				}
 			}
 		}).result.then(function(response) {

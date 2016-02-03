@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import pl.spring.demo.service.BookService;
+import pl.spring.demo.to.AuthorTo;
 import pl.spring.demo.to.BookTo;
 import pl.spring.demo.web.utils.FileUtils;
 
@@ -48,8 +49,8 @@ public class BookRestServiceTest {
         // given
         final String bookTitle = "testTitle";
 
-        final BookTo bookTo1 = new BookTo(1L, bookTitle, "Author1");
-        final BookTo bookTo2 = new BookTo(2L, bookTitle, "Author2");
+        final BookTo bookTo1 = new BookTo(1L, bookTitle, Arrays.asList(new AuthorTo(1L, "Adam", "Adamowski")));
+        final BookTo bookTo2 = new BookTo(2L, bookTitle, Arrays.asList(new AuthorTo(1L, "Marek", "Adamowski")));
 
         Mockito.when(bookService.findBooksByTitle(bookTitle)).thenReturn(Arrays.asList(bookTo1, bookTo2));
 
