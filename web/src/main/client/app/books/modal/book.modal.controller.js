@@ -1,10 +1,9 @@
 angular.module('app.books').controller(
 		'BookModalController',
 		function($scope, $modalInstance,
-				bookService, book, header) {
+				bookService, book) {
 			'use strict';
 			
-			$scope.header = header;
 			$scope.book = book;
 			$scope.firstName = '';
 			$scope.lastName = '';

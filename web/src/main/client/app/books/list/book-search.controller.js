@@ -18,7 +18,7 @@ angular.module('app.books').controller('BookSearchController', function ($scope,
         bookService.search($scope.prefix).then(function (response) {
             angular.copy(response.data, $scope.books);
         }, function () {
-            Flash.create('danger', 'Exception', 'custom-class');
+            Flash.create('danger', 'Failed to load books!', 'custom-class');
         });
     };
 
@@ -35,9 +35,6 @@ angular.module('app.books').controller('BookSearchController', function ($scope,
 			controller : 'BookModalController',
 			size : 'lg',
 			resolve : {
-				header : function() {
-					return 'Inserting new book';
-				},
 				book : function() {
 					return {
 						id : null,
@@ -48,7 +45,7 @@ angular.module('app.books').controller('BookSearchController', function ($scope,
 			}
 		}).result.then(function(response) {
 			Flash.create('success', 'Book "' + response.title + '" added successfully!', 'custom-class');
-			$scope.search();
+			$scope.books.push(response);
 		}, function() {
 			Flash.create('danger', 'Failed to add book!', 'custom-class');
 		});
@@ -60,9 +57,6 @@ angular.module('app.books').controller('BookSearchController', function ($scope,
 			controller : 'BookModalController',
 			size : 'lg',
 			resolve : {
-				header : function() {
-					return 'Updating book';
-				},
 				book : function() {
 					return book;
 				}

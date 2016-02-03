@@ -19,39 +19,62 @@ describe('book controller', function () {
     
     it('search should call bookService.search', inject(function ($controller, $q, bookService, Flash) {
         //given
+        var result = {
+                'data' : [ {
+                    'id' : 2, 'title' : 'Druga ksiazka', 'authors' : [ {
+                        'id' : 8, 'firstName' : 'Zbigniew', 'lastName' : 'Nowak'
+                    } ]
+                } ]
+            };
         var titlePrefix = 'druga';
         $controller('BookSearchController', {$scope: $scope});
         var searchDeferred = $q.defer();
         spyOn(bookService, 'search').and.returnValue(searchDeferred.promise);
         //when
+        $scope.prefix = titlePrefix;
+        searchDeferred.resolve(result);
         $scope.search();
         $scope.$digest();
         //then
-        expect(bookService.search).toHaveBeenCalled();
+        expect(bookService.search).toHaveBeenCalledWith(titlePrefix);
     }));
     
-    it('should find book by prefix', inject(function ($controller, $q, bookService) {
-    	//given
-    	var titlePrefix = 'p';
-    	$controller('BookSearchController', {$scope: $scope});
-    	var searchDeferred = $q.defer();
-    	spyOn(bookService, 'search').and.returnValue(searchDeferred.promise);
-    	//when
-    	$scope.prefix = titlePrefix;
-    	$scope.search();
-    	searchDeferred.resolve(result);
-    	$scope.$digest();
-    	//then
-    	expect(bookService.search).toHaveBeenCalled();
-    	expect($scope.books.length).toBe(2);
-    	expect($scope.books[0].id).toEqual(1);
-    	expect($scope.books[1].id).toEqual(5);
-    	expect($scope.books[0].title).toEqual('Pierwsza książka');
-    	expect($scope.books[1].title).toEqual('Piata książka');
-    	expect($scope.books[0].authors).not.toBeNull();
-    	expect($scope.books[1].authors).not.toBeNull();
+    it('search book should fail call bookService', inject(function($controller, $q, bookService, Flash) {
+        // given
+        $controller('BookSearchController', {$scope: $scope});
+        var searchDeferred = $q.defer();
+        spyOn(bookService, 'search').and.returnValue(searchDeferred.promise);
+        spyOn(Flash, 'create');
+        // when
+        $scope.search();
+        searchDeferred.reject();
+        $scope.$digest();
+        // then
+        expect(bookService.search).toHaveBeenCalled();
+        expect(Flash.create).toHaveBeenCalledWith('danger', 'Failed to load books!', 'custom-class');
     }));
-
+    
+    it('add book should open modal', inject(function($controller, $modal, $q, Flash) {
+        // given
+        $controller('BookSearchController', {$scope: $scope});
+        var testBook = {
+            id : 1, title : 'random book'
+        };
+        var modalDeferred = $q.defer();
+        spyOn($modal, 'open').and.returnValue({
+            result : modalDeferred.promise
+        });
+        spyOn(Flash, 'create');
+        // when
+        $scope.addBook();
+        modalDeferred.resolve(testBook);
+        $scope.$digest();
+        // then
+        expect($modal.open).toHaveBeenCalled();
+        expect(Flash.create).toHaveBeenCalledWith('success', 'Book "' + testBook.title + '" added successfully!',
+        'custom-class');
+    }));
+    
     it('delete book should call bookService.deleteBook', inject(function ($controller, $q, bookService, Flash) {
         // given
         $controller('BookSearchController', {$scope: $scope});
