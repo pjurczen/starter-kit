@@ -21,6 +21,6 @@ public class AuthorServiceImpl implements AuthorService {
     
     @Override
     public List<AuthorTo> findAllAuthors() {
-        return AuthorMapper.map2To(authorRepository.findAll()).stream().distinct().collect(Collectors.toList());
+        return AuthorMapper.map2To(authorRepository.findAll().stream().distinct().collect(Collectors.toList()));
     }
 }

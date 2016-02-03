@@ -1,4 +1,4 @@
-angular.module('app.authors').controller('AuthorSearchController', function ($scope, $window, $location, authorService, Flash, $modal) {
+angular.module('app.authors').controller('AuthorSearchController', function ($scope, $window, $location, authorService, Flash) {
     'use strict';
 
     $scope.authors = [];

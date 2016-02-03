@@ -2,7 +2,7 @@ angular.module('app.authors').factory('authorRestService', function ($http, curr
     'use strict';
 
     return {
-    	search: function () {
+        search: function () {
             return $http.get(currentContextPath.get() + 'services/authors');
         }
     };
