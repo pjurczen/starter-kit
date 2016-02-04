@@ -10,19 +10,15 @@ describe('author search controller', function () {
     var $authorService;
     var $Flash;
     
-    beforeEach(inject(function ($rootScope, $controller, authorService, Flash) {
+    beforeEach(inject(function ($httpBackend, $rootScope, $controller, authorService, Flash) {
+        $httpBackend.whenGET('/context.html/services/authors').respond('');
         $Flash = Flash;
         $scope = $rootScope.$new();
         $authorService = authorService;
         controller = $controller('AuthorSearchController', {$scope: $scope});
     }));
 
-    it('search is defined', inject(function () {
-        //then
-        expect($scope.search).toBeDefined();
-    }));
-    
-    it('search should call authorService.search', inject(function ($q) {
+    it('should call authorService.search after page is loaded', inject(function ($q) {
         //given
         var result = [ {
                     'id' : 1, 'firstName' : 'Wiesiek', 'lastName' : 'Graczyk'
@@ -30,7 +26,7 @@ describe('author search controller', function () {
         var searchDeferred = $q.defer();
         spyOn($authorService, 'search').and.returnValue(searchDeferred.promise);
         //when
-        $scope.search();
+        $scope.init();
         searchDeferred.resolve(result);
         $scope.$digest();
         //then
@@ -43,7 +39,7 @@ describe('author search controller', function () {
         spyOn($authorService, 'search').and.returnValue(searchDeferred.promise);
         spyOn($Flash, 'create');
         //when
-        $scope.search();
+        $scope.init();
         searchDeferred.reject();
         $scope.$digest();
         //then

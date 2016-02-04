@@ -3,7 +3,6 @@ angular.module('app.books').controller('BookSearchController', function ($scope,
 
     $scope.books = [];
     $scope.prefix = '';
-    $scope.gridOptions = { data: 'books' };
 
     var removeBookById = function (bookId) {
         for (var i = 0; i < $scope.books.length; i = i + 1) {

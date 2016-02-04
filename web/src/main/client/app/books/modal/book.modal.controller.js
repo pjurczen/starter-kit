@@ -1,12 +1,9 @@
 angular.module('app.books').controller('BookModalController', function($scope, $modalInstance, bookService, book) {
 			'use strict';
 			
-			$scope.book = book;
+			$scope.book = angular.copy(book);
 			$scope.firstName = '';
 			$scope.lastName = '';
-			$scope.gridOptions = {
-				data : 'book'
-			};
 
 			$scope.addBook = function() {
 				if ($scope.book.title !== '' && $scope.book.authors.length > 0) {

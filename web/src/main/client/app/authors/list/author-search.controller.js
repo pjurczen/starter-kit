@@ -2,13 +2,14 @@ angular.module('app.authors').controller('AuthorSearchController', function ($sc
     'use strict';
 
     $scope.authors = [];
-    $scope.gridOptions = { data: 'authors' };
 
-    $scope.search = function () {
+    $scope.init = function () {
         authorService.search().then(function (response) {
             angular.copy(response.data, $scope.authors);
         }, function () {
             Flash.create('danger', 'Failed to load authors!', 'custom-class');
-        });
+        }); 
     };
+    
+    angular.element().ready($scope.init());
 });
