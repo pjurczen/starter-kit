@@ -1,7 +1,4 @@
-angular.module('app.books').controller(
-		'BookModalController',
-		function($scope, $modalInstance,
-				bookService, book) {
+angular.module('app.books').controller('BookModalController', function($scope, $modalInstance, bookService, book) {
 			'use strict';
 			
 			$scope.book = book;

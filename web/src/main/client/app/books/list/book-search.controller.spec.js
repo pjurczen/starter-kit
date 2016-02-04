@@ -1,4 +1,4 @@
-describe('book controller', function () {
+describe('book search controller', function () {
     'use strict';
 
     beforeEach(function () {
@@ -6,18 +6,38 @@ describe('book controller', function () {
     });
 
     var $scope;
-    beforeEach(inject(function ($rootScope) {
+    var controller;
+    var $bookService;
+    var $Flash;
+    
+    beforeEach(inject(function ($controller, $rootScope, bookService, Flash) {
+        $Flash = Flash;
+        $bookService = bookService;
         $scope = $rootScope.$new();
+        controller = $controller('BookSearchController', {$scope: $scope});
     }));
 
-    it('search is defined', inject(function ($controller) {
-        // when
-        $controller('BookSearchController', {$scope: $scope});
-        // then
+    it('search is defined', inject(function () {
+        //then
         expect($scope.search).toBeDefined();
     }));
     
-    it('search should call bookService.search', inject(function ($controller, $q, bookService, Flash) {
+    it('updateBook is defined', inject(function () {
+        //then
+        expect($scope.updateBook).toBeDefined();
+    }));
+    
+    it('addBook is defined', inject(function () {
+        //then
+        expect($scope.addBook).toBeDefined();
+    }));
+    
+    it('deleteBook is defined', inject(function () {
+        //then
+        expect($scope.deleteBook).toBeDefined();
+    }));
+    
+    it('search should call bookService.search', inject(function ($q) {
         //given
         var result = {
                 'data' : [ {
@@ -27,69 +47,100 @@ describe('book controller', function () {
                 } ]
             };
         var titlePrefix = 'druga';
-        $controller('BookSearchController', {$scope: $scope});
         var searchDeferred = $q.defer();
-        spyOn(bookService, 'search').and.returnValue(searchDeferred.promise);
+        spyOn($bookService, 'search').and.returnValue(searchDeferred.promise);
         //when
         $scope.prefix = titlePrefix;
         searchDeferred.resolve(result);
         $scope.search();
         $scope.$digest();
         //then
-        expect(bookService.search).toHaveBeenCalledWith(titlePrefix);
+        expect($bookService.search).toHaveBeenCalledWith(titlePrefix);
     }));
     
-    it('search book should fail call bookService', inject(function($controller, $q, bookService, Flash) {
-        // given
-        $controller('BookSearchController', {$scope: $scope});
+    it('search book should fail call bookService.search', inject(function($q) {
+        //given
         var searchDeferred = $q.defer();
-        spyOn(bookService, 'search').and.returnValue(searchDeferred.promise);
-        spyOn(Flash, 'create');
-        // when
+        spyOn($bookService, 'search').and.returnValue(searchDeferred.promise);
+        spyOn($Flash, 'create');
+        //when
         $scope.search();
         searchDeferred.reject();
         $scope.$digest();
-        // then
-        expect(bookService.search).toHaveBeenCalled();
-        expect(Flash.create).toHaveBeenCalledWith('danger', 'Failed to load books!', 'custom-class');
+        //then
+        expect($bookService.search).toHaveBeenCalled();
+        expect($Flash.create).toHaveBeenCalledWith('danger', 'Failed to load books!', 'custom-class');
     }));
     
-    it('add book should open modal', inject(function($controller, $modal, $q, Flash) {
-        // given
-        $controller('BookSearchController', {$scope: $scope});
-        var testBook = {
-            id : 1, title : 'random book'
-        };
+    it('add book should open modal', inject(function($modal, $q) {
+        //given
         var modalDeferred = $q.defer();
         spyOn($modal, 'open').and.returnValue({
             result : modalDeferred.promise
         });
-        spyOn(Flash, 'create');
-        // when
+        //when
         $scope.addBook();
-        modalDeferred.resolve(testBook);
-        $scope.$digest();
-        // then
+        //then
         expect($modal.open).toHaveBeenCalled();
-        expect(Flash.create).toHaveBeenCalledWith('success', 'Book "' + testBook.title + '" added successfully!',
+    }));
+    
+    it('successfull adding book should flash success alert', inject(function($modal, $q) {
+        //given
+        var testBook = {
+            id : 1, title : 'random book'
+        };
+        var addDeferred = $q.defer();
+        spyOn($modal, 'open').and.returnValue({result:addDeferred.promise});
+        spyOn($Flash, 'create');
+        //when
+        $scope.addBook();
+        addDeferred.resolve(testBook);
+        $scope.$digest();
+        //then
+        expect($Flash.create).toHaveBeenCalledWith('success', 'Book "' + testBook.title + '" added successfully!',
         'custom-class');
     }));
     
-    it('delete book should call bookService.deleteBook', inject(function ($controller, $q, bookService, Flash) {
-        // given
-        $controller('BookSearchController', {$scope: $scope});
+    it('failed adding book should flash danger alert', inject(function($modal, $q) {
+        //given
+        var addDeferred = $q.defer();
+        spyOn($modal, 'open').and.returnValue({result:addDeferred.promise});
+        spyOn($Flash, 'create');
+        //when
+        $scope.addBook();
+        addDeferred.reject();
+        $scope.$digest();
+        //then
+        expect($Flash.create).toHaveBeenCalledWith('danger', 'Failed to add book!', 'custom-class');
+    }));
+    
+    
+    it('delete book should call bookService.deleteBook', inject(function ($q) {
+        //given
         var bookId = 1;
         $scope.books = [{id: bookId, title: 'test'}];
         var deleteDeferred = $q.defer();
-        spyOn(bookService, 'deleteBook').and.returnValue(deleteDeferred.promise);
-        spyOn(Flash, 'create');
-        // when
+        spyOn($bookService, 'deleteBook').and.returnValue(deleteDeferred.promise);
+        spyOn($Flash, 'create');
+        //when
         $scope.deleteBook(bookId);
         deleteDeferred.resolve();
         $scope.$digest();
-        // then
-        expect(bookService.deleteBook).toHaveBeenCalledWith(bookId);
-        expect(Flash.create).toHaveBeenCalledWith('success', 'Book successfully deleted.', 'custom-class');
+        //then
+        expect($bookService.deleteBook).toHaveBeenCalledWith(bookId);
+        expect($Flash.create).toHaveBeenCalledWith('success', 'Book successfully deleted.', 'custom-class');
         expect($scope.books.length).toBe(0);
+    }));
+    
+    it('update book should open modal', inject(function($modal, $q) {
+        //given
+        var modalDeferred = $q.defer();
+        spyOn($modal, 'open').and.returnValue({
+            result : modalDeferred.promise
+        });
+        //when
+        $scope.updateBook();
+        //then
+        expect($modal.open).toHaveBeenCalled();
     }));
 });
