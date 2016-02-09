@@ -31,7 +31,7 @@ public abstract class AbstractSelenium {
     }
 
     public HomePage openHomePage() {
-        return PageFactory.initElements(driver,HomePage.class);
+        return PageFactory.initElements(driver, HomePage.class);
     }
 
     @After
