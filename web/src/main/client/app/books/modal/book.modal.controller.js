@@ -8,7 +8,7 @@ angular.module('app.books').controller('BookModalController', function($scope, $
 			$scope.addBook = function() {
 				if ($scope.book.title !== '' && $scope.book.authors.length > 0) {
 					bookService.addBook($scope.book).then(function(){
-						$scope.$close(book);
+						$scope.$close($scope.book);
 					});
 				} else {
 					$scope.$dismiss();

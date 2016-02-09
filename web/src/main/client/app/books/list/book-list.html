@@ -17,7 +17,7 @@
         </tr>
         <tr class="entity" ng-repeat="book in books">
             <td>{{ book.title }}</td>
-            <td><span ng-repeat="author in book.authors">{{ author.firstName }} {{ author.lastName }}<span ng-if="!$last">, </span></span></td>
+            <td><span ng-repeat="author in book.authors">{{ author.firstName }} {{ author.lastName }}<span ng-if="!$last">,  </span></span></td>
             <td>
                 <button class="btn btn-success" ng-click="updateBook(book)">Edit</button>
             </td>
