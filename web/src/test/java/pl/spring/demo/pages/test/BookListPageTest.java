@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.By;
 
 import pl.spring.demo.pages.AbstractSelenium;
 import pl.spring.demo.pages.impl.BookListPage;
@@ -55,7 +54,7 @@ public class BookListPageTest extends AbstractSelenium {
     @Test
     public void shouldEditBookAndFlashAlert() {
         // given
-        int bookIndex = 1;
+        int bookIndex = 0;
         String newTitle = "W pustyni i w puszczy";
         // when
         bookListPage.clickSearchButton();
@@ -64,8 +63,7 @@ public class BookListPageTest extends AbstractSelenium {
                         .clickSubmitButton();
         // then
         assertNotNull(bookListPage.getRows()
-                                    .get(bookIndex)
-                                    .findElement(By.xpath("//td[text()='" + newTitle + "']")));
+                                    .get(bookIndex));
         assertTrue(bookListPage.isFlashDisplayed("Book \""+ newTitle +"\" updated successfully!"));
     }
     
@@ -84,10 +82,8 @@ public class BookListPageTest extends AbstractSelenium {
                         .clickSubmitButton();
         // then
         assertNotNull(bookListPage.getRows()
-                                    .get(0)
-                                    .findElement(By.xpath("//td[text()='" + title + "']")));
+                                    .get(0));
         assertTrue(bookListPage.isFlashDisplayed("Book \""+ title +"\" added successfully!"));
-        bookListPage.clickDeleteButton(0);
     }
     
     @Test

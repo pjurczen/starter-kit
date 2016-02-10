@@ -76,7 +76,7 @@ public class BookListPage extends AbstractPageObject {
     }
 
     public boolean isFlashDisplayed(String message) {
-        WebDriverWait wait = new WebDriverWait(driver,10);
+        WebDriverWait wait = new WebDriverWait(driver, 10);
         String xpath = "//span [text() = '" + message +"']";
         wait.until(ExpectedConditions.visibilityOf(flash));
         return flash.findElement(By.xpath(xpath)).isDisplayed();
